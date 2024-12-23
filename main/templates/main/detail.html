@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>{{ game.name }}</h2>
+
+    <p><strong>Ціна:</strong> {{ game.price }} грн</p>
+    <p><strong>Вік:</strong> {{ game.get_age_display }}</p>
+    <p><strong>Категорія:</strong> {{ game.get_category_display }}</p>
+    <p class="publisher"><strong>Видавець:</strong> {{ game.publisher.name }} <img width="30px" src="{{ game.publisher.logo.url }}" alt=""></p>
+
+    {% if game.image %}
+    <img src="{{ game.image.url }}" alt="{{ game.name }}" style="max-width: 300px;">
+    {% endif %}
+
+    <p><strong>Опис:</strong></p>
+    <p>{{ game.description }}</p>
+
+    <!-- Кнопка додавання / видалення з улюблених (лише якщо користувач залогінений) -->
+    {% if user.is_authenticated %}
+    {% if game in user.favorites.all %}
+    <!-- Якщо гра в улюблених - кнопка для видалення -->
+    <form action="{% url 'toggle_favorite' game.id %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit">Прибрати з улюблених</button>
+    </form>
+    {% else %}
+    <!-- Якщо гри нема в улюблених - кнопка для додавання -->
+    <form action="{% url 'toggle_favorite' game.id %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit">Додати в улюблені</button>
+    </form>
+    {% endif %}
+    {% else %}
+    <p>Щоб додати гру в улюблені, <a href="{% url 'login' %}">увійдіть</a>.</p>
+    {% endif %}
+
+    <br><br>
+
+    <a href="{% url 'list' %}">Повернутися до списку</a>
+</div>
+{% endblock content %}

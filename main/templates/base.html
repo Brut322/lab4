@@ -1,0 +1,51 @@
+<!-- file: templates/base.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Магазин Настільних Ігор</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Магазин Настільних Ігор</h1>
+
+        <div class="container">
+            {% if user.is_authenticated %}
+            <nav>
+                <ul>
+                    <li><a href="{% url 'list' %}" class="link">Головна</a></li>
+
+                    <li><a href="{% url 'profile' %}" class="link">Профіль</a></li>
+
+                    <li><a href="{% url 'logout' %}" class="link">Вийти</a></li>
+                </ul>
+            </nav>
+
+            <p>Авторизовано - {{ user.email }}</p>
+            {% else %}
+            <nav>
+                <ul>
+                    <li><a href="{% url 'list' %}" class="link">Головна</a></li>
+
+                    <li><a href="{% url 'login' %}" class="link">Логін</a></li>
+
+                    <li><a href="{% url 'register' %}" class="link">Реєстрація</a></li>
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- Основний вміст сторінки -->
+        {% endblock content %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Настільні Ігри, Inc.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h2>Профіль користувача</h2>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+
+    <br>
+    <br>
+    <h3>Мої улюблені ігри:</h3>
+    {% if favorites %}
+    <ul>
+        {% for game in favorites %}
+        <li>
+            <a href="{% url 'detail' game.id %}">
+                {{ game.name }}
+            </a> - {{ game.price }} грн
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>У вас ще немає улюблених ігор.</p>
+    {% endif %}
+
+</div>
+{% endblock content %}

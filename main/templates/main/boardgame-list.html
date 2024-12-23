@@ -1,0 +1,32 @@
+{% load static %}
+
+<!-- Список ігор -->
+<div class="boardgame-cards">
+    {% if games %}
+    {% for game in games %}
+    <div class="boardgame-card">
+        <a href="{% url 'detail' game.id %}">
+            {% if game.image %}
+            <img class="game-image" src="{{ game.image.url }}" alt="{{ game.name }}">
+            {% else %}
+            <img class="game-image" src="{% static 'images/placeholder.svg' %}" alt="{{ game.name }}">
+            {% endif %}
+        </a>
+
+        <div class="boardgame-info">
+            <h3>
+                <a href="{% url 'detail' game.id %}">
+                    {{ game.name }}
+                </a>
+            </h3>
+            <p class="price"><strong>Ціна:</strong> {{ game.price }} грн</p>
+            <p class="category"><strong>Категорія:</strong> {{ game.get_category_display }}</p>
+            <p class="age"><strong>Вік:</strong> {{ game.get_age_display }}</p>
+            <p class="publisher"><strong>Видавець:</strong> {{ game.publisher.name }}</p>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>Нічого не знайдено.</p>
+    {% endif %}
+</div>

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h2>Список Настільних Ігор</h2>
+
+    <!-- Форма пошуку та фільтрації -->
+    <form method="GET" class="filter">
+        <div>
+            <label for="search">Пошук по назві:</label>
+            <input type="text" name="search" id="search" value="{{ request.GET.search }}">
+        </div>
+
+        <div>
+            <label for="category">Категорія:</label>
+            <select name="category" id="category">
+                <option value="">Всі</option>
+                {% for key, value in games_categories %}
+                <option value="{{ key }}" {% if request.GET.category == key %}selected{% endif %}>
+                    {{ value }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="age">Вік:</label>
+            <select name="age" id="age">
+                <option value="">Всі</option>
+                {% for key, value in games_ages %}
+                <option value="{{ key }}" {% if request.GET.age == key %}selected{% endif %}>
+                    {{ value }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="publisher">Видавець:</label>
+            <select name="publisher" id="publisher">
+                <option value="">Всі</option>
+                {% for publisher in publishers %}
+                <option value="{{ publisher.id }}" {% if request.GET.publisher == publisher.id|stringformat:"s" %}selected{% endif %}>
+                    {{ publisher.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit">Знайти</button>
+    </form>
+
+    <hr />
+
+    {% include 'main/boardgame-list.html' %} 
+</div>
+{% endblock content %}
